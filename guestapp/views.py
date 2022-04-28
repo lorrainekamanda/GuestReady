@@ -8,19 +8,16 @@ class Reservations(View):
    
 
     def get(self,request):
-         values_list_queryset =  Reservation.objects.values_list('id','rental__name','checkin','checkout').annotate(dcount=Count('rental__id'))
-      
-        
-
-       
-
-         reservations = Reservation.objects.values('id','rental__name','checkin','checkout')
-         
+         queryset =  Reservation.objects.values('id','rental__name','checkin','checkout')
+         rental =  Rental.objects.all()
+         reservations = Reservation.objects.values('id','rental__name','checkin','checkout','previous_reservation')
+         new_id = Reservation.objects.filter(rental= rental )
          context = {
               
-               'values_list_queryset':values_list_queryset,
+               'queryset':queryset,
                'reservations':reservations,
-               
+               'rental':rental,
+             
          }
         
          return render(self.request,'index.html',context)

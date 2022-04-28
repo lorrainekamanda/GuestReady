@@ -136,9 +136,27 @@ h2{
 }
 </style>
 <body>
-    <p>{{values_list_queryset}}</p>
-    <h2>Responsive Table</h2>
+ 
+    
+    <h2>Table</h2>
+    
   
+    {% for rent in rental %}
+    <hr>
+    <p>{{rent.name}}</p>
+    
+    {%for query in queryset %}
+
+    {% if query.rental__name == rent.name %}
+   <p>RES {{query.id}} ({{query.checkin}},{{query.checkout}})</p> 
+   {% endif %}
+ 
+   {% empty %} 
+   <p>No reservation</p>
+  
+   {% endfor %}
+     
+   {% endfor %}
 
 <div class="table-wrapper">
     <table class="fl-table">
@@ -148,7 +166,7 @@ h2{
             <th>ID</th>
             <th>Checkin</th>
             <th>Checkout</th>
-            <th>Header 5</th>
+            <th>Previous Reservation</th>
         </tr>
         </thead>
         <tbody>
@@ -162,7 +180,7 @@ h2{
             <td>Res-{{reservation.id}} ID</td>
             <td>{{reservation.checkin}}</td>
             <td>{{reservation.checkout}}</td>
-            <td>{{reserve.id}}</td>
+            <td>{{reservation.previous_reservation}}</td>
 
           
         </tr>
