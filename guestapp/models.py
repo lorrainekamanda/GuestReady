@@ -19,16 +19,7 @@ class Reservation(models.Model):
  
    def __str__(self):
        return self.rental.name
- 
-   @property
-   def previous_reservation_id(self):
-       rental = self.rental
-       previous_reservation = Reservation.objects.filter(
-           rental=rental.id, id__lte=self.id).order_by('id').exclude(id=self.id).last()
-       if previous_reservation:
-           return previous_reservation
-       return ""
- 
+   
  
 def reservation_post_save(sender, instance, created, *args, **kwargs):
    if created:
@@ -46,14 +37,7 @@ def reservation_post_save(sender, instance, created, *args, **kwargs):
 post_save.connect(reservation_post_save, sender=Reservation)
  
  
-class Previous_reservation(models.Model):
-   pre_rental = models.ForeignKey(
-       Rental, on_delete=models.CASCADE, null=True, blank=True, related_name='pre_rental')
-   pre_reservation = models.ForeignKey(
-       Reservation, on_delete=models.CASCADE, null=True, blank=True, related_name='pre_reservation')
- 
-   def __str__(self):
-       return self.pre_rental.name
+
  
  
 
