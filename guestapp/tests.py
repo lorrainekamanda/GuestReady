@@ -1,6 +1,6 @@
 from django.test import TestCase
-
-from .models import Rental,Reservation
+from django.db.models import signals
+from .models import Rental,Reservation,reservation_post_save
 
 
 """
@@ -15,7 +15,10 @@ class ReservationTestClass(TestCase):
         self.new_reservation.save()
         
 
-    
+    def test_connection(self):
+        result = signals.post_save.connect(reservation_post_save,sender=Reservation)
+
+        self.assertTrue(result == None)
         
 
     def test_instance(self):

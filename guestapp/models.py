@@ -27,7 +27,7 @@ def reservation_post_save(sender, instance, created, *args, **kwargs):
        previous_reservation = Reservation.objects.filter(
            rental=rental.id, id__lte=instance.id).order_by('id').exclude(id=instance.id).last()
        if previous_reservation:
-           instance.previous_reservation = str(previous_reservation.id)
+           instance.previous_reservation = previous_reservation.id
            instance.save()
        else:
            instance.previous_reservation = "-"
